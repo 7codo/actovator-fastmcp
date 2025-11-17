@@ -95,7 +95,7 @@ class TopLevelCommands(AutoRegisteringGroup):
         Logger.root.setLevel(logging.INFO)
         factory = ProjectFactory()
         mcp = factory.create_mcp_server()
-        mcp.run(transport="streamable-http")
+        mcp.run()
 
 
 # Expose toplevel commands for the same reason
