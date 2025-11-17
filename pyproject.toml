@@ -7,7 +7,7 @@ requires-python = ">=3.14"
 dependencies = [
     "charset-normalizer>=3.4.4",
     "docstring-parser>=0.17.0",
-    "joblib>=1.5.2",
+    "joblib>=1.5.1",
     "mcp>=1.21.1",
     "overrides>=7.7.0",
     "pathspec>=0.12.1",
