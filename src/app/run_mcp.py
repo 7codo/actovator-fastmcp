@@ -137,7 +137,7 @@ class ProjectFactory:
 
 #     factory = ProjectFactory()
 #     mcp = factory.create_mcp_server()
-#     mcp.run(transport="stdio")
+#     mcp.run(transport="streamable-http")
 
 
 # if __name__ == "__main__":

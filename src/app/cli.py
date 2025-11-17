@@ -86,14 +86,7 @@ class TopLevelCommands(AutoRegisteringGroup):
         default=None,
         help="Override tool execution timeout in config.",
     )
-    def start_mcp_server(
-        transport: Literal["stdio", "sse", "streamable-http"],
-        host: str,
-        port: int,
-        log_level: Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"] | None,
-        trace_lsp_communication: bool | None,
-        tool_timeout: float | None,
-    ) -> None:
+    def start_mcp_server() -> None:
         # initialize logging, using INFO level initially (will later be adjusted by SerenaAgent according to the config)
         #   * memory log handler (for use by GUI/Dashboard)
         #   * stream handler for stderr (for direct console output, which will also be captured by clients like Claude Desktop)
@@ -102,7 +95,7 @@ class TopLevelCommands(AutoRegisteringGroup):
         Logger.root.setLevel(logging.INFO)
         factory = ProjectFactory()
         mcp = factory.create_mcp_server()
-        mcp.run(transport="stdio")
+        mcp.run(transport="streamable-http")
 
 
 # Expose toplevel commands for the same reason
