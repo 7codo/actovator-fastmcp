@@ -1,5 +1,5 @@
 docstring-parser>=0.17.0
-fastmcp>=2.13.1
+fastmcp>=2.13.0
 joblib>=1.5.2
 overrides>=7.7.0
 pathspec>=0.12.1
