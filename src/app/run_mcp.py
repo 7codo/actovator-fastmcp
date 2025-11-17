@@ -132,13 +132,13 @@ class ProjectFactory:
         yield
 
 
-# def start_mcp_server():
-#     """Entrypoint to start the MCP server."""
+def start_mcp_server():
+    """Entrypoint to start the MCP server."""
 
-#     factory = ProjectFactory()
-#     mcp = factory.create_mcp_server()
-#     mcp.run(transport="streamable-http")
+    factory = ProjectFactory()
+    mcp = factory.create_mcp_server()
+    mcp.run(transport="streamable-http")
 
 
-# if __name__ == "__main__":
-#     start_mcp_server()
+if __name__ == "__main__":
+    start_mcp_server()
