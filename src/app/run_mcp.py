@@ -3,11 +3,10 @@ The Model Context Protocol (MCP) Server for the TypeScript-AI-Humanizer project
 """
 
 import sys
-from abc import abstractmethod
-from collections.abc import AsyncIterator, Iterator, Sequence
+from collections.abc import AsyncIterator, Iterator
 from contextlib import asynccontextmanager
 from dataclasses import dataclass
-from typing import Any, Literal, cast
+from typing import Any
 
 import docstring_parser
 from mcp.server.fastmcp import server
@@ -98,18 +97,8 @@ class ProjectFactory:
     def _iter_tools(self, project: TSProject) -> Iterator[Tool]:
         yield from project._exposed_tools.tools
 
-    def _get_initial_instructions(self) -> str:
-        return (
-            "You are an AI assistant integrated into a TypeScript project called AI-Humanizer. "
-            "You have access to a set of tools that allow you to explore, analyze, and modify the codebase. "
-            "Use the tools to help the user understand and work with their TypeScript code effectively."
-        )
-
     def create_mcp_server(
         self,
-        host: str = "0.0.0.0",
-        port: int = 8001,
-        log_level: Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"] = "INFO",
     ) -> FastMCP:
         """
         Create an MCP server with the TSProject instance.
@@ -119,7 +108,6 @@ class ProjectFactory:
 
         # Override model_config to disable the use of `.env` files for reading settings
         Settings.model_config = SettingsConfigDict(env_prefix="FASTMCP_")
-        instructions = self._get_initial_instructions()
         mcp = FastMCP(
             lifespan=lambda srv: self.server_lifespan(srv, project),
         )
@@ -144,29 +132,13 @@ class ProjectFactory:
         yield
 
 
-def start_mcp_server():
-    """Entrypoint to start the MCP server."""
-    import argparse
+# def start_mcp_server():
+#     """Entrypoint to start the MCP server."""
 
-    parser = argparse.ArgumentParser(description="Start the AI-Humanizer MCP server.")
-    parser.add_argument("--host", default="localhost", help="Host to bind to")
-    parser.add_argument("--port", type=int, default=8001, help="Port to bind to")
-    parser.add_argument(
-        "--log-level",
-        choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
-        default="INFO",
-        help="Logging level",
-    )
-    args = parser.parse_args()
-
-    factory = ProjectFactory()
-    mcp = factory.create_mcp_server(
-        host=args.host, port=args.port, log_level=args.log_level
-    )
-
-    # FIX: Explicitly specify HTTP transport
-    mcp.run()
+#     factory = ProjectFactory()
+#     mcp = factory.create_mcp_server()
+#     mcp.run(transport="stdio")
 
 
-if __name__ == "__main__":
-    start_mcp_server()
+# if __name__ == "__main__":
+#     start_mcp_server()
