@@ -15,8 +15,7 @@ from mcp.server.fastmcp.tools.base import Tool as MCPTool
 from pydantic_settings import SettingsConfigDict
 from sensai.util import logging
 
-from app.tools.tools_base import TSProject
-from app.tools.tools_base import Tool
+from app.tools.tools_base import TSProject, Tool
 from app.constants import SERENA_LOG_FORMAT
 
 log = logging.getLogger(__name__)
@@ -105,11 +104,10 @@ class ProjectFactory:
         """
         # Instantiate the TSProject (loads language server and tools)
         project = TSProject()
-
         # Override model_config to disable the use of `.env` files for reading settings
         Settings.model_config = SettingsConfigDict(env_prefix="FASTMCP_")
         mcp = FastMCP(
-            lifespan=lambda srv: self.server_lifespan(srv, project),
+            lifespan=lambda srv: self.server_lifespan(srv, project), port=8001
         )
         return mcp
 
@@ -137,8 +135,52 @@ def start_mcp_server():
 
     factory = ProjectFactory()
     mcp = factory.create_mcp_server()
-    mcp.run()
+    mcp.run()  # transport="streamable-http"
 
 
 if __name__ == "__main__":
+    # import pprint
+
     start_mcp_server()
+    # project = TSProject()
+    # print("tools", len(project._exposed_tools.tools))
+    # tool = project._exposed_tools.tools[3]
+    # print("tool name:", tool.get_name_from_cls())
+    # result = tool.apply_ex(name_path="Alpha", relative_path="test.ts")
+    # pprint.pprint(result, indent=3)
+
+    # # FindSymbolTool
+    # result = project._exposed_tools.tools[2].apply_ex(
+    #     name_path="default", relative_path="next.config.ts"
+    # )
+    # print("result of FindSymbolTool", result)
+
+    # for tool in project._exposed_tools.tools:
+    #     print("tool", tool.get_name_from_cls())
+
+# tool execute_shell_command (DONE)
+# tool get_symbols_overview (DONE)
+# tool find_symbol (DONE) zero based index
+
+# tool find_referencing_symbols: Note: content_around_reference start from empty line and miss the end line
+
+# tool replace_symbol_body: BUG: for method/function or class it replace it fully but in variables it replace the name and the value only
+# // BEFORE
+# const myVariable = 10;
+
+# // AFTER
+# const const test = 10;;
+
+
+# tool insert_after_symbol (DONE)
+# tool insert_before_symbol (DONE)
+# tool rename_symbol (FAILD)
+# tool read_file (DONE)
+# tool create_text_file (DONE)
+# tool list_dir (DONE)
+# tool find_file (DONE)
+# tool replace_regex (DONE)
+# tool delete_lines (DONE)
+# tool replace_lines  (DONE)
+# tool insert_at_line (DONE) it push the below line
+# tool search_for_pattern (DONE)

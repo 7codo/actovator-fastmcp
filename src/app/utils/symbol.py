@@ -4,11 +4,10 @@ import os
 from abc import ABC, abstractmethod
 from collections.abc import Iterator, Sequence
 from dataclasses import asdict, dataclass
-from typing import TYPE_CHECKING, Any, NotRequired, Self, TypedDict, Union
+from typing import Any, Self
 
 from sensai.util.string import ToStringMixin
 
-from app.constants import PROJECT_ROOT_PATH
 from app.solidlsp import SolidLanguageServer
 from app.solidlsp.ls import ReferenceInSymbol as LSPReferenceInSymbol
 from app.solidlsp.ls_types import Position, SymbolKind, UnifiedSymbolInformation
@@ -224,6 +223,9 @@ class LanguageServerSymbol(Symbol, ToStringMixin):
             if range_info:
                 end_pos = range_info.get("end")
                 if end_pos:
+                    print(
+                        f"[DEBUG] body_end_position raw: {end_pos} for {self.name} in {self.relative_path}"
+                    )
                     return end_pos
         return None
 
@@ -662,70 +664,3 @@ class LanguageServerSymbolRetriever:
                 for s in unified_symbols
             ]
         return result
-
-
-class JetBrainsSymbol(Symbol):
-    class SymbolDict(TypedDict):
-        name_path: str
-        relative_path: str
-        type: str
-        text_range: NotRequired[dict]
-        body: NotRequired[str]
-        children: NotRequired[list["JetBrainsSymbol.SymbolDict"]]
-
-    def __init__(self, symbol_dict: SymbolDict) -> None:
-        """
-        :param symbol_dict: dictionary as returned by the JetBrains plugin client.
-        """
-        self._dict = symbol_dict
-        self._cached_file_content: str | None = None
-        self._cached_body_start_position: PositionInFile | None = None
-        self._cached_body_end_position: PositionInFile | None = None
-
-    def _tostring_includes(self) -> list[str]:
-        return []
-
-    def _tostring_additional_entries(self) -> dict[str, Any]:
-        return dict(
-            name_path=self.get_name_path(),
-            relative_path=self.get_relative_path(),
-            type=self._dict["type"],
-        )
-
-    def get_name_path(self) -> str:
-        return self._dict["name_path"]
-
-    def get_relative_path(self) -> str:
-        return self._dict["relative_path"]
-
-    def get_file_content(self) -> str:
-        if self._cached_file_content is None:
-            path = os.path.join(PROJECT_ROOT_PATH, self.get_relative_path())
-            with open(path, encoding="utf-8") as f:
-                self._cached_file_content = f.read()
-        return self._cached_file_content
-
-    def is_position_in_file_available(self) -> bool:
-        return "text_range" in self._dict
-
-    def get_body_start_position(self) -> PositionInFile | None:
-        if not self.is_position_in_file_available():
-            return None
-        if self._cached_body_start_position is None:
-            pos = self._dict["text_range"]["start_pos"]
-            line, col = pos["line"], pos["col"]
-            self._cached_body_start_position = PositionInFile(line=line, col=col)
-        return self._cached_body_start_position
-
-    def get_body_end_position(self) -> PositionInFile | None:
-        if not self.is_position_in_file_available():
-            return None
-        if self._cached_body_end_position is None:
-            pos = self._dict["text_range"]["end_pos"]
-            line, col = pos["line"], pos["col"]
-            self._cached_body_end_position = PositionInFile(line=line, col=col)
-        return self._cached_body_end_position
-
-    def is_neighbouring_definition_separated_by_empty_line(self) -> bool:
-        # NOTE: Symbol types cannot really be differentiated, because types are not handled in a language-agnostic way.
-        return False

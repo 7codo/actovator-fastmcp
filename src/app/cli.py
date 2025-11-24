@@ -101,3 +101,10 @@ class TopLevelCommands(AutoRegisteringGroup):
 # Expose toplevel commands for the same reason
 top_level = TopLevelCommands()
 start_mcp_server = top_level.start_mcp_server
+
+if __name__ == "__main__":
+    # import pprint
+
+    start_mcp_server()
+    # project = TSProject()
+    # print("tools", len(project._exposed_tools.tools))

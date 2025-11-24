@@ -864,6 +864,7 @@ class SolidLanguageServer(ABC):
         """
         with self.open_file(relative_file_path) as file_data:
             file_contents = file_data.contents
+
         return MatchedConsecutiveLines.from_file_contents(
             file_contents,
             line=line,

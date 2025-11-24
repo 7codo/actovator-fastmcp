@@ -21,7 +21,7 @@ class ExecuteShellCommandTool(Tool):
         max_answer_chars: int = -1,
     ) -> str:
         """
-        Execute a shell command and return its output. If there is a memory about suggested commands, read that first.
+        Execute a shell command and return its output.
         Never execute unsafe shell commands!
         IMPORTANT: Do not use this tool to start
           * long-running processes (e.g. servers) that are not intended to terminate quickly,

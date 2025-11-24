@@ -4,10 +4,9 @@ import os
 from abc import ABC, abstractmethod
 from collections.abc import Iterable, Iterator, Reversible
 from contextlib import contextmanager
-from typing import TYPE_CHECKING, Generic, Optional, TypeVar, cast
+from typing import Generic, TypeVar, cast
 
 from app.utils.symbol import (
-    JetBrainsSymbol,
     LanguageServerSymbol,
     LanguageServerSymbolRetriever,
     PositionInFile,
@@ -16,7 +15,7 @@ from app.utils.symbol import (
 from app.solidlsp import SolidLanguageServer, ls_types
 from app.solidlsp.ls import LSPFileBuffer
 from app.solidlsp.ls_types import extract_text_edits
-from app.solidlsp.ls_utils import PathUtils, TextUtils
+from app.solidlsp.ls_utils import PathUtils
 
 from app.constants import DEFAULT_SOURCE_FILE_ENCODING
 
