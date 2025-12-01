@@ -15,8 +15,8 @@ from mcp.server.fastmcp.tools.base import Tool as MCPTool
 from pydantic_settings import SettingsConfigDict
 from sensai.util import logging
 
-from app.tools.tools_base import TSProject, Tool
 from app.constants import SERENA_LOG_FORMAT
+from app.tools.tools_base import Tool, TSProject
 
 log = logging.getLogger(__name__)
 

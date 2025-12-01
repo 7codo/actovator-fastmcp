@@ -1,6 +1,5 @@
 from pathlib import Path
 
-
 DEFAULT_SOURCE_FILE_ENCODING = "utf-8"
 
 SERENA_FILE_ENCODING = "utf-8"
@@ -12,9 +11,7 @@ TRACE_LSP_COMMUNICATION = True
 LS_SPECIFIC_SETTINGS = {}
 DEFAULT_MAX_TOOL_ANSWER_CHARS = 150000
 DEFAULT_TOOL_TIMEOUT: float = 240
-PROJECT_ROOT_PATH = (
-    "C:\\Users\\Admin\\Desktop\\code\\nextjs\\nextjs-template"  # /home/user/nextjs
-)
+PROJECT_ROOT_PATH = "/home/user/nextjs"  # /home/user/nextjs
 IGNORED_PATHS: list = []
 IGNORE_ALL_FILES_IN_GITIGNORE: bool = True
 
