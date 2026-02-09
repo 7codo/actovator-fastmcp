@@ -17,7 +17,6 @@ from app.constants import (
     DEFAULT_SOURCE_FILE_ENCODING,
     DEFAULT_TOOL_TIMEOUT,
     IGNORE_ALL_FILES_IN_GITIGNORE,
-    IGNORED_BY_DEFAULT,
     IGNORED_PATHS,
     LS_SPECIFIC_SETTINGS,
     PROJECT_ROOT_PATH,
@@ -134,10 +133,10 @@ class PathIgnoreMixin:
             return True
 
         # Ignore paths listed in ignored_by_default
-        for default_ignore in IGNORED_BY_DEFAULT:
-            # If any path part matches the ignore pattern
-            if default_ignore in rel_path.parts:
-                return True
+        # for default_ignore in IGNORED_BY_DEFAULT:
+        #     # If any path part matches the ignore pattern
+        #     if default_ignore in rel_path.parts:
+        #         return True
 
         return match_path(
             str(relative_path),

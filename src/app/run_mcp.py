@@ -135,7 +135,7 @@ def start_mcp_server():
 
     factory = ProjectFactory()
     mcp = factory.create_mcp_server()
-    mcp.run()  # transport="streamable-http"
+    mcp.run(transport="streamable-http")  # transport="streamable-http"
 
 
 if __name__ == "__main__":

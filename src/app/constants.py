@@ -11,7 +11,7 @@ TRACE_LSP_COMMUNICATION = True
 LS_SPECIFIC_SETTINGS = {}
 DEFAULT_MAX_TOOL_ANSWER_CHARS = 150000
 DEFAULT_TOOL_TIMEOUT: float = 240
-PROJECT_ROOT_PATH = "/home/user/nextjs"  # /home/user/nextjs
+PROJECT_ROOT_PATH = "C:\\Users\\Admin\\Desktop\\code\\nextjs\\template"  # /home/user/nextjs
 IGNORED_PATHS: list = []
 IGNORE_ALL_FILES_IN_GITIGNORE: bool = True
 
@@ -19,6 +19,6 @@ SERENA_MANAGED_DIR_NAME = ".serena"
 _serena_in_home_managed_dir = Path.home() / ".serena"
 
 SERENA_MANAGED_DIR_IN_HOME = str(_serena_in_home_managed_dir)
-IGNORED_BY_DEFAULT = [
-    ".serena",
-]
+# IGNORED_BY_DEFAULT = [
+#     ".serena",
+# ]
